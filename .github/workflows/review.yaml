@@ -31,4 +31,4 @@ jobs:
 
     - run: |
         PR_TAG="pr-${{ github.event.pull_request.number }}-${{ github.sha }}"
-        ko build --bare --tags $PR_TAG
+        ko build  --tags $PR_TAG
