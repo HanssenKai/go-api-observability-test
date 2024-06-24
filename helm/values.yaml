@@ -6,5 +6,7 @@ ports:
   containerPort: 8080
   protocol: TCP
 envVarsSecret: "db-app"
+imagePullSecrets:
+  - name: imagepull
 ingress:
   enabled: false
