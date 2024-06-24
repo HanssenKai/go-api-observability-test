@@ -1,5 +1,6 @@
 image:
-  repository: ghcr.io/hanssenkai/go-api-observability-test
+  registry: ghcr.io
+  repository: hanssenkai/go-api-observability-test
   tag: latest
   pullSecrets:
   - imagepull
