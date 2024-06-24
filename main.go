@@ -7,6 +7,9 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
+    "net/http"
+    "github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/HanssenKai/go-api-observability-test/api"
 	_ "github.com/HanssenKai/go-api-observability-test/docs"
 )
@@ -37,6 +40,12 @@ func main() {
 	api.SetupRoutes(router)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+    //  Run prometheus handler in a goroutine
+    go func() {
+        http.Handle("/metrics", promhttp.Handler())
+        http.ListenAndServe(":2112", nil)
+    }()
 
 	router.Run(":8080")
 }
