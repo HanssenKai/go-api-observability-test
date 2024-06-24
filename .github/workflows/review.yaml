@@ -28,3 +28,8 @@ jobs:
         go test
 
     - uses: ko-build/setup-ko@v0.6
+
+    - run: |
+        SHORT_SHA="${{ github.sha[:8] }}"
+        PR_TAG="pr-${{ github.event.pull_request.number }}-${SHORT_SHA}"
+        ko build --bare --tags $PR_TAG
