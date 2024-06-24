@@ -43,7 +43,7 @@ jobs:
 
     - name: build and push using ko
       env:
-        KO_DOCKER_REPO: ghcr.io/hanssenkai
+        KO_DOCKER_REPO: ${{ env.REGISTRY }}
       run: |
         PR_TAG="pr-${{ github.event.pull_request.number }}-${{ steps.pr_vars.outputs.sha_short }}"
-        ko build  --tags $PR_TAG
+        ko build -B --tags $PR_TAG
