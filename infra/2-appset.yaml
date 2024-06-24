@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: my-application-set
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - name: postgres-operator
+            chart: cloudnative-pg
+            version: "0.21.5"
+            repoUrl: "https://cloudnative-pg.github.io/charts"
+            namespace: cnpg
+  template:
+    metadata:
+      name: '{{.name}}'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          selfHeal: true    
+          prune: true
+        syncOptions:
+        - CreateNamespace=true        
+      sources:
+        - chart: '{{.chart}}'
+          repoURL: '{{.repoUrl}}'
+          targetRevision: '{{.version}}'
+          helm:
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - $values/infra/values-cnpg.yaml
+        - ref: values
+          repoURL: https://github.com/HanssenKai/go-api-observability-test.git
+          targetRevision: HEAD
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'
