@@ -1,12 +1,12 @@
 image:
   repository: ghcr.io/hanssenkai/go-api-observability-test
   tag: latest
+  pullSecrets:
+  - imagepull
 ports:
 - name: http
   containerPort: 8080
   protocol: TCP
 envVarsSecret: "db-app"
-imagePullSecrets:
-  - imagepull
 ingress:
   enabled: false
