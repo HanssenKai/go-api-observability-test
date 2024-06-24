@@ -5,8 +5,6 @@ ports:
 - name: http
   containerPort: 8080
   protocol: TCP
-envFrom:
-  - secretRef:
-      name: db-app
+envVarsSecret: "db-app"
 ingress:
   enabled: false
