@@ -48,7 +48,7 @@ jobs:
       env:
         auth_token: ${{ secrets.TOKEN }}
       run: |
-        echo "${auth_token}" | ko login ghcr.io --username hanssenkai --password-stdin
+        echo "${auth_token}" | ko login ghcr.io --username ${{github.actor}} --password-stdin
         #echo "${auth_token}" | ko login ${{ env.REGISTRY }} --username {{ github.actor }} --password-stdin
         PR_TAG="pr-${{ github.event.pull_request.number }}-${{ steps.pr_vars.outputs.sha_short }}"
         ko build -B --tags $PR_TAG
