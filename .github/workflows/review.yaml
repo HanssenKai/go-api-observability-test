@@ -29,6 +29,11 @@ jobs:
 
     - uses: ko-build/setup-ko@v0.6
 
+    - name: Set short git commit SHA
+      if: ${{ (steps.meta.outpus.tags == null) && (github.event_name == 'pull_request')}}
+      id: pr_vars
+      run: echo "sha_short=`echo ${{ github.event.pull_request.head.sha}} | cut -c1-8`" >> $GITHUB_OUTPUT
+
     - run: |
-        PR_TAG="pr-${{ github.event.pull_request.number }}-${{ github.sha }}"
+        PR_TAG="pr-${{ github.event.pull_request.number }}-${{ steps.pr_vars.outputs.sha_short }}"
         ko build  --tags $PR_TAG
