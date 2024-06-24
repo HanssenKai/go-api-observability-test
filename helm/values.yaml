@@ -7,6 +7,6 @@ ports:
   protocol: TCP
 envVarsSecret: "db-app"
 imagePullSecrets:
-  - name: imagepull
+  - imagepull
 ingress:
   enabled: false
