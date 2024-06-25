@@ -14,6 +14,11 @@ spec:
             version: "0.21.5"
             repoUrl: "https://cloudnative-pg.github.io/charts"
             namespace: cnpg
+          - name: loki
+            chart: loki
+            version: "latest"
+            repoUrl: "https://grafana.github.io/helm-charts"
+            namespace: loki
   template:
     metadata:
       name: '{{.name}}'
