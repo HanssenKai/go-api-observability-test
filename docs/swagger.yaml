@@ -19,6 +19,22 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /fail:
+    get:
+      consumes:
+      - application/json
+      description: Always returns a failure status indicating that the service is
+        unavailable.
+      produces:
+      - application/json
+      responses:
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/api.HealthStatus'
+      summary: Check failure status
+      tags:
+      - failure
   /health:
     get:
       consumes:
@@ -47,5 +63,5 @@ paths:
             $ref: '#/definitions/api.HealthStatus'
       summary: get list of locations and update database
       tags:
-      - health
+      - update
 swagger: "2.0"

@@ -35,7 +35,7 @@ func healthCheck(c *gin.Context) {
 // @Tags failure
 // @Accept  json
 // @Produce  json
-// @Failure 503 {object} HealthStatus{status="unhealthy"} "Service Unavailable"
+// @Failure 503 {object} HealthStatus
 // @Router /fail [get]
 func fail(c *gin.Context) {
     c.JSON(http.StatusServiceUnavailable, HealthStatus{"unhealthy"})
@@ -43,7 +43,7 @@ func fail(c *gin.Context) {
 
 // locations updates list of ship locations and stores in database
 // @Summary get list of locations and update database
-// @Tags health
+// @Tags update
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} HealthStatus
