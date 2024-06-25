@@ -1,24 +1,25 @@
-grafana:
-  dashboardProviders:
-    dashboardproviders.yaml:
-      apiVersion: 1
-      providers:
-        - name: 'default'
-          orgId: 1
-          folder: ''
-          type: 'file'
-          disableDeletion: false
-          editable: true
-          options:
-            path: /var/lib/grafana/dashboards/default
+datasources.yaml:
+  apiVersion: 1
+  datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus.prometheus.svc
 
-  dashboards:
-    default:
-      prometheus-stats:
-        gnetId: 7362  # Replace with the actual dashboard ID from Grafana.com
-        revision: 1   # Revision number of the dashboard
-        datasource: Prometheus  # Specify your datasource here
-      kubernetes-cluster:
-        gnetId: 315  # Another example dashboard ID
-        revision: 2
-        datasource: Prometheus
+dashboardproviders.yaml:
+  apiVersion: 1
+  providers:
+    - name: 'default'
+      orgId: 1
+      folder: 'default'
+      type: file
+      disableDeletion: true
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    jvm-micrometer:
+      gnetId: 4701
+      revision: 10
+      datasource: Prometheus
