@@ -8,6 +8,19 @@ ports:
 - name: http
   containerPort: 8080
   protocol: TCP
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+
+
 envVarsSecret: "db-app"
 ingress:
   enabled: false
