@@ -21,7 +21,7 @@ dashboardProviders:
 
 dashboards:
   default:
-    jvm-micrometer:
-      gnetId: 4701
-      revision: 10
-      datasource: Prometheus
+    loki:
+      gnetId: 13186
+      revision: 1
+      datasource: Loki
