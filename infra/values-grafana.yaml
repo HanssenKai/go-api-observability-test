@@ -5,6 +5,9 @@ datasources:
       - name: Prometheus
         type: prometheus
         url: http://prometheus.prometheus.svc
+      - name: loki
+        type: loki
+        url: http://loki.loki:3100
 
 dashboardProviders:
   dashboardproviders.yaml:
