@@ -1,1 +1,1 @@
-talosctl cluster create --workers 3
+kind create cluster --config=01-cluster.yaml

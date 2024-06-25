@@ -1,9 +1,7 @@
-kubeEtcd:
-   service:
-     targetPort: 2381
-kubeControllerManager:  
-   service:
-     targetPort: 10257
-kubeScheduler:
-   service:
-     targetPort: 10259
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    serviceMonitorSelectorNilUsesHelmValues: false
+grafana:
+  enabled: false

@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kystapi-servicemonitor
+  labels:
+    release: prometheus
+  namespace: kyst
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kyst  # This should match the label of the service to monitor
+  namespaceSelector:
+    matchNames:
+      - kyst
+  endpoints:
+  - port: http
+    interval: 5s  # Scrape interval; adjust as necessary
+    path: /metrics
+
