@@ -1,21 +1,23 @@
-datasources.yaml:
-  apiVersion: 1
-  datasources:
-    - name: Prometheus
-      type: prometheus
-      url: http://prometheus.prometheus.svc
+datasources: 
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus.prometheus.svc
 
-dashboardproviders.yaml:
-  apiVersion: 1
-  providers:
-    - name: 'default'
-      orgId: 1
-      folder: 'default'
-      type: file
-      disableDeletion: true
-      editable: true
-      options:
-        path: /var/lib/grafana/dashboards/default
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: 'default'
+        type: file
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
 
 dashboards:
   default:
