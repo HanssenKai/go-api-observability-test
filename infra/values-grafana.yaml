@@ -4,7 +4,7 @@ datasources:
     datasources:
       - name: Prometheus
         type: prometheus
-        url: http://prometheus.prometheus.svc
+        url: http://prometheus-kube-prometheus-prometheus.prometheus:9090
       - name: loki
         type: loki
         url: http://loki.loki:3100
