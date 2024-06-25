@@ -12,12 +12,12 @@ ports:
 readinessProbe:
   enabled: true
   httpGet:
-    path: /health
+    path: /v1/health
     port: http
 livenessProbe:
   enabled: true
   httpGet:
-    path: /health
+    path: /v1/health
     port: http
 
 
