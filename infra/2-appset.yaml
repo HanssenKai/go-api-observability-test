@@ -14,16 +14,19 @@ spec:
             version: "0.21.5"
             repoUrl: "https://cloudnative-pg.github.io/charts"
             namespace: cnpg
+            replace: "true"
           - name: prometheus
             chart: kube-prometheus-stack
             version: "35.5.1"
             repoUrl: "https://prometheus-community.github.io/helm-charts"
             namespace: prometheus
+            replace: "false"
           - name: grafana
             chart: grafana
             version: "8.0.2"
             repoUrl: "https://grafana.github.io/helm-charts"
             namespace: grafana
+            replace: "false"
           # - name: loki
           #   chart: loki
           #   version: "6.6.4"
@@ -50,7 +53,7 @@ spec:
           prune: true
         syncOptions:
         - CreateNamespace=true        
-        #- Replace=true
+        - Replace={{.replace}}
       sources:
         - chart: '{{.chart}}'
           repoURL: '{{.repoUrl}}'
