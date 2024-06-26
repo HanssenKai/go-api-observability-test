@@ -1,0 +1,71 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: my-application-set
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - name: postgres-operator
+            chart: cloudnative-pg
+            version: "0.21.5"
+            repoUrl: "https://cloudnative-pg.github.io/charts"
+            namespace: cnpg
+            replace: "true"
+          - name: prometheus
+            chart: kube-prometheus-stack
+            version: "35.5.1"
+            repoUrl: "https://prometheus-community.github.io/helm-charts"
+            namespace: prometheus
+            replace: "false"
+          - name: grafana
+            chart: grafana
+            version: "8.0.2"
+            repoUrl: "https://grafana.github.io/helm-charts"
+            namespace: grafana
+            replace: "false"
+          # - name: loki
+          #   chart: loki
+          #   version: "6.6.4"
+          #   repoUrl: "https://grafana.github.io/helm-charts"
+          #   namespace: loki
+          # - name: alloy
+          #   chart: alloy
+          #   version: "0.3.2"
+          #   repoUrl: "https://grafana.github.io/helm-charts"
+          #   namespace: grafana
+          # - name: otel
+          #   chart: opentelemetry-collector
+          #   version: "0.96.0"
+          #   repoUrl: "https://open-telemetry.github.io/opentelemetry-helm-charts"
+          #   namespace: grafana
+  template:
+    metadata:
+      name: '{{.name}}'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          selfHeal: true    
+          prune: true
+        syncOptions:
+        - CreateNamespace=true        
+        - Replace={{.replace}}
+      sources:
+        - chart: '{{.chart}}'
+          repoURL: '{{.repoUrl}}'
+          targetRevision: '{{.version}}'
+          helm:
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - $values/infra/values-{{.name}}.yaml
+        - ref: values
+          repoURL: https://github.com/HanssenKai/go-api-observability-test.git
+          targetRevision: HEAD
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'

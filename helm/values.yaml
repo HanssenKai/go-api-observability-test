@@ -1,0 +1,26 @@
+image:
+  registry: ghcr.io
+  repository: hanssenkai/go-api-observability-test
+  tag: latest
+  pullSecrets:
+  - imagepull
+ports:
+- name: http
+  containerPort: 8080
+  protocol: TCP
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /v1/health
+    port: http
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /v1/health
+    port: http
+
+
+envVarsSecret: "db-app"
+ingress:
+  enabled: false

@@ -1,2 +1,3 @@
-export-env.sh
+secret.yaml
 4.1-secret.yaml
+export-env.sh
