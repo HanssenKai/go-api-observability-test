@@ -38,6 +38,7 @@ jobs:
   semantic-release:
     runs-on: ubuntu-latest
     # requires write permissions, when called from another workflow, parent workflow also needs these permissions
+    needs: test 
     permissions:
       contents: write
       packages: write
