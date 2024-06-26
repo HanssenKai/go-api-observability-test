@@ -1,0 +1,56 @@
+name: Pull request review app
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - closed
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: login to registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.TOKEN }}
+    
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.21'  # Specify your Go version
+
+    - name: Run tests
+      run: |
+        go test
+
+
+    - name: Set short git commit SHA
+      if: ${{ (steps.meta.outpus.tags == null) && (github.event_name == 'pull_request')}}
+      id: pr_vars
+      run: echo "sha_short=`echo ${{ github.event.pull_request.head.sha}} | cut -c1-8`" >> $GITHUB_OUTPUT
+
+    - uses: ko-build/setup-ko@v0.7
+      env:
+        KO_DOCKER_REPO: ${{ env.REGISTRY }}
+
+    - name: build and push using ko
+      env:
+        auth_token: ${{ secrets.TOKEN }}
+        KO_DOCKER_REPO: ${{ env.REGISTRY }}/${{ github.actor }}
+      run: |
+        echo "${auth_token}" | ko login ghcr.io --username ${{ github.actor }} --password-stdin
+        #echo "${auth_token}" | ko login ${{ env.REGISTRY }} --username {{ github.actor }} --password-stdin
+        PR_TAG="pr-${{ github.event.pull_request.number }}-${{ steps.pr_vars.outputs.sha_short }}"
+        echo "would build image with tag $PR_TAG here"
+        #ko build -B --tags $PR_TAG

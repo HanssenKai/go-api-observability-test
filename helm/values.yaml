@@ -1,7 +1,7 @@
 image:
   registry: ghcr.io
   repository: hanssenkai/go-api-observability-test
-  tag: latest
+  tag: 1.0.2
   pullSecrets:
   - imagepull
 ports:
