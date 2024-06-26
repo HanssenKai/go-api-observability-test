@@ -21,3 +21,41 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kystapi-review-generator
+  namespace: argocd
+spec:
+  generators:
+  - pullRequest:
+      github:
+        owner: hanssenkai
+        repo: go-api-observability-test
+        #appSecretName: secret
+      requeueAfterSeconds: 1800
+  template:
+    metadata:
+      labels:
+        pr: '{{`{{number}}`}}'
+      name: kystapi-{{`{{number}}-{{branch_slug}}`}}
+      namespace: argocd
+    spec:
+      destination:
+        namespace: kyst
+        server: https://kubernetes.default.svc
+      project: default
+      source:
+        helm:
+          values: |
+            image:
+              tag: "pr-{{`{{number}}`}}-{{`{{head_short_sha}}`}}"
+          ignoreMissingValueFiles: true
+          valueFiles:
+          - values.yaml
+        path: helm
+        repoURL: https://github.com/hanssenkai/go-api-observability-test.git
+        targetRevision: '{{`{{branch}}`}}'
+      syncPolicy: {}
+
