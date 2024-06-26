@@ -14,6 +14,9 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+      values: |
+        image:
+          tag: "v1.1"
   project: default
   syncPolicy:
     automated:
@@ -38,8 +41,8 @@ spec:
   template:
     metadata:
       labels:
-        pr: '{{`{{number}}`}}'
-      name: kystapi-{{`{{number}}-{{branch_slug}}`}}
+        pr: "{{number}}"
+      name: kystapi-{{number}}-{{branch_slug}}
       namespace: argocd
     spec:
       destination:
@@ -50,12 +53,12 @@ spec:
         helm:
           values: |
             image:
-              tag: "pr-{{`{{number}}`}}-{{`{{head_short_sha}}`}}"
+              tag: "pr-{{number}}-{{head_short_sha}}"
           ignoreMissingValueFiles: true
           valueFiles:
           - values.yaml
         path: helm
         repoURL: https://github.com/hanssenkai/go-api-observability-test.git
-        targetRevision: '{{`{{branch}}`}}'
+        targetRevision: '{{branch}}'
       syncPolicy: {}
 

@@ -28,3 +28,7 @@ dashboards:
       gnetId: 13186
       revision: 1
       datasource: Loki
+    loki:
+      gnetId: 6671
+      revision: 2
+      datasource: Prometheus
