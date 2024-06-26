@@ -59,9 +59,9 @@ func initTracer() func(context.Context) error {
 			attribute.String("library.language", "go"),
 		),
 	)
-	if err != nil {
-		log.Printf("Could not set resources: ", err)
-	}
+	// if err != nil {
+	// 	log.Printf("Could not set resources: ", err)
+	// }
 
 	otel.SetTracerProvider(
 		sdktrace.NewTracerProvider(
