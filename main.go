@@ -24,6 +24,7 @@ var (
 	}, []string{"path", "method", "code"})
 )
 
+
 type responseWriter struct {
 	gin.ResponseWriter
 	statusCode int
